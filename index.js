@@ -14,23 +14,28 @@ app.use((req, res, next) => {
     })
 });
 
+app.use((req, res, next) => {
+    console.log(req.method, req.hostname, req.url)
+    next()
+})
+
 app
-    .get('/', function (req, res) {
+    .get('/', (req, res) => {
         const data = fs.readFileSync('database.txt').toString()
         res.send(data)
     })
-    .post('/add', function (req, res) {
+    .post('/add', (req, res) => {
         const data = req.rawBody
         fs.appendFileSync('database.txt', '\n' + data)
         console.log(data)
         res.send('')
     })
-    .put('/', function (req, res) {
+    .put('/', (req, res) => {
         fs.writeFileSync('database.txt', req.rawBody)
         res.send('')
     })
-    .delete('/', function (req, res) {
-        fs.writeFileSync('database.txt','')
+    .delete('/', (req, res) => {
+        fs.writeFileSync('database.txt', '')
         res.send('')
     })
 
